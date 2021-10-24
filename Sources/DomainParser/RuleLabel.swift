@@ -21,7 +21,7 @@ enum RuleLabel {
     /// Return true if self matches the given label
     func isMatching(label: String) -> Bool {
         switch self {
-        case let .text(text):
+        case .text(let text):
             return text == label
         case .wildcard:
             return true

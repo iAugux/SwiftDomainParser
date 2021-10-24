@@ -6,11 +6,10 @@
 //  Copyright © 2018 Dashlane. All rights reserved.
 //
 
-import XCTest
 @testable import DomainParser
+import XCTest
 
 class DomainParserTests: XCTestCase {
-
     var domainParser: DomainParser!
     override func setUp() {
         super.setUp()
@@ -22,18 +21,16 @@ class DomainParserTests: XCTestCase {
             _ = try! DomainParser()
         }
     }
-    
+
     func testMeasureParser() {
         self.measure {
             testPSL()
         }
     }
-    
 
     /// Common PSL Unit test. For a given host check if it returns the expected registrable domain
     /// Source: https://raw.githubusercontent.com/publicsuffix/list/master/tests/test_psl.txt
     func testPSL() {
-
         // nil input.
         checkPublicSuffix(nil, nil)
         // Mixed case.
@@ -42,10 +39,10 @@ class DomainParserTests: XCTestCase {
         checkPublicSuffix("WwW.example.COM", "example.com")
         // Leading dot.
         // Listed, but non-Internet, TLD.
-        //checkPublicSuffix("local", nil);
-        //checkPublicSuffix("example.local", nil);
-        //checkPublicSuffix("b.example.local", nil);
-        //checkPublicSuffix("a.b.example.local", nil);
+        // checkPublicSuffix("local", nil);
+        // checkPublicSuffix("example.local", nil);
+        // checkPublicSuffix("b.example.local", nil);
+        // checkPublicSuffix("a.b.example.local", nil);
         // TLD with only 1 rule.
         checkPublicSuffix("biz", nil)
         checkPublicSuffix("domain.biz", "domain.biz")
@@ -120,7 +117,6 @@ class DomainParserTests: XCTestCase {
         //        checkPublicSuffix("www.xn--85x722f.xn--fiqs8s", "xn--85x722f.xn--fiqs8s");
         //        checkPublicSuffix("shishi.xn--fiqs8s", "shishi.xn--fiqs8s");
         //        checkPublicSuffix("xn--fiqs8s", nil);
-
     }
 
     func checkPublicSuffix(_ host: String?,
@@ -131,4 +127,3 @@ class DomainParserTests: XCTestCase {
         XCTAssertEqual(domainParser.parse(host: host.lowercased())?.domain, expectedDomain, file: file, line: line)
     }
 }
-

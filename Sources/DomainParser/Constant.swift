@@ -13,8 +13,6 @@ struct Constant {
     static let exceptionMarker = "!"
     static let hostDelimiter = "."
     static let wildcardComponent = "*"
-
 }
 
 typealias C = Constant
-

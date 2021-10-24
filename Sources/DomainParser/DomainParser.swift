@@ -14,13 +14,12 @@ enum DomainParserError: Error {
 
 /// Uses the public suffix list
 public struct DomainParser {
-    
     let parsedRules: ParsedRules
-    
+
     let onlyBasicRules: Bool
-    
+
     let basicRulesParser: BasicRulesParser
-    
+
     /// Parse the `public_suffix_list` file and build the set of Rules
     /// Parameters:
     ///   - QuickParsing: IF true, the `exception` and `wildcard` rules will be ignored
@@ -36,26 +35,25 @@ public struct DomainParser {
         if onlyBasicRules {
             return basicRulesParser.parse(host: host)
         } else {
-            return parseExceptionsAndWildCardRules(host: host) ??  basicRulesParser.parse(host: host)
+            return parseExceptionsAndWildCardRules(host: host) ?? basicRulesParser.parse(host: host)
         }
      }
-    
+
     func parseExceptionsAndWildCardRules(host: String) -> ParsedHost? {
         let hostComponents = host.components(separatedBy: ".")
-        let isMatching: (Rule) -> Bool =  { $0.isMatching(hostLabels: hostComponents) }
+        let isMatching: (Rule) -> Bool = { $0.isMatching(hostLabels: hostComponents) }
         let rule = parsedRules.exceptions.first(where: isMatching) ?? parsedRules.wildcardRules.first(where: isMatching)
         return rule?.parse(hostLabels: hostComponents)
     }
 }
 
 private extension Bundle {
-
     static var current: Bundle {
         #if SWIFT_PACKAGE
         return Bundle.module
         #else
         class ClassInCurrentBundle {}
-        return Bundle.init(for: ClassInCurrentBundle.self)
+        return Bundle(for: ClassInCurrentBundle.self)
         #endif
     }
 }

@@ -10,7 +10,6 @@ import Foundation
 
 /// Represents a Public Suffix Rule
 struct Rule {
-
     /// Is this rule an exception
     let exception: Bool
 
@@ -24,7 +23,6 @@ struct Rule {
     let rankingScore: Int
 
     init(raw: String) {
-
         /// If the line starts with "!" it's an exceptional Rule
         exception = raw.starts(with: C.exceptionMarker)
         source = exception ? String(raw.dropFirst()) : raw
@@ -36,7 +34,6 @@ struct Rule {
 }
 
 extension Rule {
-
     /// From https://publicsuffix.org/list/
     /// A domain is said to match a rule if and only if all of the following conditions are met:
     /// - When the domain and rule are split into corresponding labels,
@@ -55,10 +52,10 @@ extension Rule {
 
         let zipped = zip(self.parts, trimmedHostLabels)
         /// Closure that check if a RuleLabel match a given string
-        let matchingClosure:(RuleLabel, String) -> Bool = {ruleComponent, hostComponent in
+        let matchingClosure:(RuleLabel, String) -> Bool = { ruleComponent, hostComponent in
             return ruleComponent.isMatching(label: hostComponent)
         }
-        
+
         #if swift(>=4.2)
         return zipped.allSatisfy(matchingClosure)
         #else
@@ -67,14 +64,13 @@ extension Rule {
         }
         return !zipped.contains(where: notMatchingClosure)
         #endif
-        
+
        // return matching
     }
-        
 
     /// ⚠️ Should be called only for host matching the rule
     func parse(hostLabels: [String]) -> ParsedHost {
-        let partsCount =  parts.count - (self.exception ? 1 : 0)
+        let partsCount = parts.count - (self.exception ? 1 : 0)
         let delta = hostLabels.count - partsCount
 
         let domain = delta == 0 ? nil : hostLabels.dropFirst(delta - 1).joined(separator: ".")
@@ -83,10 +79,11 @@ extension Rule {
         return ParsedHost(publicSuffix: publicSuffix,
                           domain: domain)
     }
-
 }
 
-/// MARK: - Comparable
+// MARK: - Rule Conformance to Comparable
+
+// MARK: - Comparable
 
 extension Rule: Comparable {
     static func < (lhs: Rule, rhs: Rule) -> Bool {
