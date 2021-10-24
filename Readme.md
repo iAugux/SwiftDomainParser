@@ -1,6 +1,5 @@
-# Domain Parser 
-[![Carthage Compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
-
+# Domain Parser
+[![SPM](https://github.com/iAugux/SwiftDomainParser/actions/workflows/swift.yml/badge.svg)](https://github.com/iAugux/SwiftDomainParser/actions/workflows/swift.yml)
 
 A full-swift simple library which allows to parse host to parse hostnames, and public suffix, using the [Public Suffix List](https://publicsuffix.org)
 
