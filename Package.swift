@@ -1,4 +1,4 @@
-// swift-tools-version:5.3
+// swift-tools-version:5.5
 
 import PackageDescription
 
@@ -6,27 +6,24 @@ let package = Package(
     name: "DomainParser",
     platforms: [
         .iOS(.v13),
-        .macOS(.v10_14)
+        .macOS(.v10_14),
     ],
     products: [
         .library(
             name: "DomainParser",
-            targets: ["DomainParser"]),
-        ],
-        dependencies: [],
-        targets: [
-            .target(
-                name: "DomainParser",
-                dependencies: [],
-                path: "DomainParser/DomainParser",
-                exclude: ["Info.plist"],
-                resources: [.process("Resources")]
-            ),
-            .testTarget(
-                name: "DomainParserTests",
-                dependencies: ["DomainParser"],
-                path: "DomainParser/DomainParserTests",
-                exclude: ["Info.plist"]
-            )
-        ]
-    )
+            targets: ["DomainParser"]
+        ),
+    ],
+    targets: [
+        .target(
+            name: "DomainParser",
+            resources: [
+                .process("public_suffix_list.dat"),
+            ]
+        ),
+        .testTarget(
+            name: "DomainParserTests",
+            dependencies: ["DomainParser"]
+        ),
+    ]
+)
