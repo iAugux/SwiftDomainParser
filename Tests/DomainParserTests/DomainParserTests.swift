@@ -121,7 +121,7 @@ class DomainParserTests: XCTestCase {
 
     func checkPublicSuffix(_ host: String?,
                            _ expectedDomain: String?,
-                           file: StaticString = #file,
+                           file: StaticString = #filePath,
                            line: UInt = #line) {
         guard let host = host else { return }
         XCTAssertEqual(domainParser.parse(host: host.lowercased())?.domain, expectedDomain, file: file, line: line)
