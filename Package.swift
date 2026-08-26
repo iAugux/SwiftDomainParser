@@ -1,4 +1,4 @@
-// swift-tools-version:5.5
+// swift-tools-version:6.0
 
 import PackageDescription
 
@@ -25,5 +25,6 @@ let package = Package(
             name: "DomainParserTests",
             dependencies: ["DomainParser"]
         ),
-    ]
+    ],
+    swiftLanguageModes: [.v6]
 )
