@@ -8,7 +8,7 @@
 
 import Foundation
 
-public struct ParsedHost {
+public struct ParsedHost: Sendable {
     public let publicSuffix: String
     /// Domain excluding subdomains
     public let domain: String?

@@ -123,7 +123,7 @@ class DomainParserTests: XCTestCase {
                            _ expectedDomain: String?,
                            file: StaticString = #filePath,
                            line: UInt = #line) {
-        guard let host = host else { return }
+        guard let host else { return }
         XCTAssertEqual(domainParser.parse(host: host.lowercased())?.domain, expectedDomain, file: file, line: line)
     }
 }

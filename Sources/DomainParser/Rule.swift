@@ -9,7 +9,7 @@
 import Foundation
 
 /// Represents a Public Suffix Rule
-struct Rule {
+struct Rule: Sendable {
     /// Is this rule an exception
     let exception: Bool
 
@@ -23,12 +23,12 @@ struct Rule {
     let rankingScore: Int
 
     init(raw: String) {
-        /// If the line starts with "!" it's an exceptional Rule
+        // If the line starts with "!" it's an exceptional Rule
         exception = raw.starts(with: C.exceptionMarker)
         source = exception ? String(raw.dropFirst()) : raw
         parts = source.components(separatedBy: ".").map(RuleLabel.init)
 
-        /// Exceptions should have a higher Rank than regular rules
+        // Exceptions should have a higher Rank than regular rules
         rankingScore = (exception ? 1000 : 0) + parts.count
     }
 }
@@ -44,14 +44,14 @@ extension Rule {
     func isMatching(hostLabels: [String]) -> Bool {
         let delta = hostLabels.count - self.parts.count
 
-        /// The url should have at least the same number of labels than the url
+        // The url should have at least the same number of labels than the url
         guard delta >= 0 else { return false }
 
-        /// Drop the excedent so we have two arrays of the same size
+        // Drop the excedent so we have two arrays of the same size
         let trimmedHostLabels = hostLabels.dropFirst(delta)
 
         let zipped = zip(self.parts, trimmedHostLabels)
-        /// Closure that check if a RuleLabel match a given string
+        // Closure that check if a RuleLabel match a given string
         let matchingClosure:(RuleLabel, String) -> Bool = { ruleComponent, hostComponent in
             return ruleComponent.isMatching(label: hostComponent)
         }
@@ -82,8 +82,6 @@ extension Rule {
 }
 
 // MARK: - Rule Conformance to Comparable
-
-// MARK: - Comparable
 
 extension Rule: Comparable {
     static func < (lhs: Rule, rhs: Rule) -> Bool {

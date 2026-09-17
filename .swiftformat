@@ -2,7 +2,7 @@
 
 # --symlinks ignore
 --exclude "**/Pods","Pods", "fastlane", "**/.build",".build"
---swiftversion 5.5
+--swiftversion 6.0
 
 # Format Options
 --modifierorder public,override

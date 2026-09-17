@@ -31,7 +31,7 @@ class RulesParser {
         guard let trimmedLine = line.components(separatedBy: .whitespaces).first,
             !trimmedLine.isComment, !trimmedLine.isEmpty else { return }
 
-        /// From `publicsuffix.org/list/` Each line is only read up to the first whitespace; entire lines can also be commented using //.
+        // From `publicsuffix.org/list/` Each line is only read up to the first whitespace; entire lines can also be commented using //.
         if trimmedLine.contains("*") {
             wildcardRules.append(Rule(raw: trimmedLine))
         } else if trimmedLine.starts(with: "!") {

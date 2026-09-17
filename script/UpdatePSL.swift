@@ -1,5 +1,5 @@
 //
-//  DomainParserDownloader.swift
+//  UpdatePSL.swift
 //  DomainParser
 //
 //  Created by Jason Akakpo on 20/07/2018.
@@ -23,9 +23,9 @@ struct PublicSuffistListFetcher {
 
     static let url = URL(string: "https://publicsuffix.org/list/public_suffix_list.dat")!
     func load(callback: @escaping PublicSuffistListClosure) {
-        URLSession.shared.dataTask(with: PublicSuffistListFetcher.url) { (data, _, error) in
+        URLSession.shared.dataTask(with: PublicSuffistListFetcher.url) { data, _, error in
             do {
-                guard let data = data else {
+                guard let data else {
                     throw ErrorType.fetchingError(details: error)
                 }
                 try callback(.success(PublicSuffixListMinimifier(data: data).minimify()))
@@ -39,11 +39,7 @@ struct PublicSuffistListFetcher {
 struct PublicSuffixListMinimifier {
     let data: Data
 
-    init(data: Data) {
-        self.data = data
-    }
-
-    // A valid line is a non-empty, non-comment line
+    /// A valid line is a non-empty, non-comment line
     func isLineValid(line: String) -> Bool {
         return !line.isEmpty && !line.starts(with: "//")
     }
@@ -54,7 +50,7 @@ struct PublicSuffixListMinimifier {
         let validLinesArray = stringifiedData.components(separatedBy: .newlines)
             .map { $0.trimmingCharacters(in: CharacterSet.whitespaces) }
             .compactMap { $0.components(separatedBy: CharacterSet.whitespaces).first }
-            /// Filter out useless Lines (Comments or empty ones)
+            // Filter out useless Lines (Comments or empty ones)
             .filter(isLineValid)
 
         return validLinesArray.joined(separator: "\n").data(using: .utf8)!
@@ -65,7 +61,7 @@ func main() {
     let sema = DispatchSemaphore(value: 0)
 
     let fileRelativePath = "../Sources/DomainParser/public_suffix_list.dat"
-    PublicSuffistListFetcher().load() { result in
+    PublicSuffistListFetcher().load { result in
         defer {
             sema.signal()
         }
@@ -81,7 +77,7 @@ func main() {
             showError(error: error)
         }
     }
-    /// Wait for the Async Task finish
+    // Wait for the Async Task finish
     sema.wait()
 }
 

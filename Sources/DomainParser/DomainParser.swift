@@ -8,12 +8,12 @@
 
 import Foundation
 
-enum DomainParserError: Error {
-    case parsingError(details: Error?)
+enum DomainParserError: Error, Sendable {
+    case parsingError(details: (any Error & Sendable)?)
 }
 
 /// Uses the public suffix list
-public struct DomainParser {
+public struct DomainParser: Sendable {
     let parsedRules: ParsedRules
 
     let onlyBasicRules: Bool
@@ -58,7 +58,7 @@ private extension Bundle {
     }
 }
 
-struct ParsedRules {
+struct ParsedRules: Sendable {
     let exceptions: [Rule]
     let wildcardRules: [Rule]
     let basicRules: Set<String>

@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct Constant {
+enum Constant {
     static let commentMarker = "//"
     static let exceptionMarker = "!"
     static let hostDelimiter = "."

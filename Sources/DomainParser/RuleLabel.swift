@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum RuleLabel {
+enum RuleLabel: Sendable {
     case text(String)
     /// The wildcard character * (asterisk) matches any valid sequence of characters in a hostname part.
     /// Wildcards are not restricted to appear only in the leftmost position, but they must wildcard an entire label. (I.e. *.*.foo is a valid rule: *bar.foo is not.)
